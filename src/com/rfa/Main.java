@@ -3,7 +3,7 @@ package com.rfa;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-// In this commit the - Calculating the remaining balance formula is implemented
+// In this commit the -After implementing remaining balance formula feature, now REFACTORING is done
 
 public class Main {
 
@@ -35,22 +35,30 @@ public class Main {
         years = (byte) readNumber("Perios (Years): ", 1, 30);
 
 
+        printMortgage(principal, annualInterest, years);
 
+        printPaymentSchedule(principal, annualInterest, years);
+
+    }
+
+    private static void printMortgage(int principal, float annualInterest, byte years) {
         double mortgage = calculateMortgage(principal, annualInterest, years);
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println(); // for the line break
         System.out.println("MORTGAGE");
         System.out.println("---------");
         System.out.print("Monthly Payments: " + mortgageFormatted);
+    }
 
+    // This below method is extracted, the extract method feature in Inellij.
+    private static void printPaymentSchedule(int principal, float annualInterest, byte years) {
         System.out.println(); // line break - new line
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("----------------");
-        for (short month = 1; month<years * MONTHS_IN_YEAR; month++){
+        for (short month = 1; month< years * MONTHS_IN_YEAR; month++){
             double balance = calculateBalance(principal, annualInterest, years, month);
             System.out.println(NumberFormat.getCurrencyInstance().format(balance));
         }
-
     }
 
     // The function for refactoring a reptitive method
@@ -75,7 +83,6 @@ public class Main {
     * logically related.
     * This makes our code better organized
     * */
-
     public static double calculateBalance(
             int principal,
             float annualInterest,
