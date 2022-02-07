@@ -3,7 +3,7 @@ package com.rfa;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-// In this commit the - This is the 1st Refactor
+// In this commit the - Refactoring is done of the repetitive patterns
 
 public class Main {
 
@@ -17,40 +17,19 @@ public class Main {
         byte years;
         int numberOfPayments;
 
-        Scanner scanner = new Scanner(System.in);
+
 
         // Infinite Loop - Taking the input of the prinicipal
-        while(true){
-            System.out.print("Principal: ");
-            principal = scanner.nextInt();
+        principal = (int) readNumber("Principal", 1000, 1_000_000);
 
-            if(principal >= 1000 && principal <= 1_000_000)
-                break;
-            else
-                System.out.println("Please insert the value ranging from 1000 to 1000000!!");
-        }
 
         // Infinite Loop - Taking the input annual interest
-        while (true) {
-            System.out.print("Annual Interest Rate: ");
-            annualInterest = scanner.nextFloat();
-            if(annualInterest >= 1 && annualInterest <= 30) {
+        annualInterest = (float) readNumber("Annual Interest Rate: ", 1, 30);
 
-                break;
-            }
-            System.out.println("Please insert the value that is from 1 to 30!!");
-        }
 
         // Infinite Loop - Taking the input years
-        while (true) {
-            System.out.print("Period (Years): ");
-            years = scanner.nextByte();
-            if(years >= 1 && years <= 30) {
-
-                break;
-            }
-            System.out.println("Please insert the value from 1 to 30!!");
-        }
+        years = (byte) readNumber("Perios (Years): ", 1, 30);
+       
 
 
         double mortgage = calculateMortgage(principal, annualInterest, years);
@@ -60,6 +39,24 @@ public class Main {
 
     }
 
+    // The function for refactoring a reptitive method
+    static public double readNumber (String prompt, double min, double max) {
+        Scanner scanner = new Scanner(System.in);
+        double value;
+        while (true) {
+            System.out.print(prompt);
+            value = scanner.nextFloat();
+            if(value >= min && value <= max){
+                break;
+            }
+
+            System.out.println("Please insert the value from " + min + " to " + max +"!!");
+        }
+
+        return value;
+    }
+
+    // The function to calculate mortgage
     static public double calculateMortgage(
             int principal, float annualInterest, byte years )
     {
@@ -75,6 +72,5 @@ public class Main {
                 / (Math.pow(1+monthlyInterest, numberOfPayments));
 
         return mortgage;
-
     }
 }
